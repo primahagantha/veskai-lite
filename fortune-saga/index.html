@@ -35,10 +35,11 @@
                     <li class="nav-item dropdown">
                         <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Partners</a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="https://discord.com/users/1385570363395543072" target="_blank">Akira Vei</a></li>
-                            <li><a class="dropdown-item" href="https://discord.gg/QwwznUTZH6" target="_blank">Fortune Saga</a></li>
-                            <li><a class="dropdown-item" href="https://discord.gg/5BhNqfjWGp" target="_blank">Anikai</a></li>
-                            <li><a class="dropdown-item" href="https://www.instagram.com/rzzll_008" target="_blank">rzzll_088 - Instagram</a></li>
+                            <li><a class="dropdown-item" href="https://discord.com/users/1385570363395543072" target="_blank">Akira Vei - Creator</a></li>
+                            <li><a class="dropdown-item" href="https://www.instagram.com/rzzll_008" target="_blank">rzzll_088 - Creator</a></li>
+                            <li><a class="dropdown-item" href="https://www.youtube.com/@RocinanteYT" target="_blank">Rocinante - Creator</a></li>
+                            <li><a class="dropdown-item" href="/fortune-saga/">Fortune Saga - Bot</a></li>
+                            <li><a class="dropdown-item" href="https://anikai.xyz" target="_blank">Anikai - Streaming</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -75,126 +76,141 @@
                     <h2 class="text-white mb-4">Fortune Saga</h2>
                     <p class="text-white-50">Bot RPG</p>
                     <p class="text-white-50">soon</p>
-                    <a href="#" style="margin-bottom: 10%;" class="btn btn-join">Invite Bot</a>
+                    <a href="https://discord.com/oauth2/authorize?client_id=1386319866365083753" style="margin-bottom: 10%;" class="btn btn-join">Invite Bot</a>
+                    <a href="https://discord.gg/QwwznUTZH6" style="margin-bottom: 10%;" class="btn btn-join">Official Server</a>
                 </div>
-                <div class="col-md-5">
-                    <div class="discord-widget">
-                        <h1>Leaderboard</h1>
-                        <ul id="leaderboard"></ul>
-
-<script type="module">
-  import { createClient } from "https://esm.sh/@supabase/supabase-js";
-
-  const SUPABASE_URL = "https://ikidbzuswyvypvwrhyua.supabase.co";
-  const SUPABASE_KEY = "sb_publishable_YzA0q7qTWk2SjzCA9G9tHA_mASl_cPZ";
-
-  const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-
-  async function loadLeaderboard() {
-    const { data, error } = await supabase
-      .from("Player") // kalau nama tabel huruf besar → gunakan .from('"Player"')
-      .select("userId, xp")
-      .order("xp", { ascending: false })
-      .limit(10);
-
-    if (error) {
-      console.error("Supabase error:", error);
-      return;
-    }
-
-    const list = document.getElementById("leaderboard");
-    list.innerHTML = "";
-
-    data.forEach((player, index) => {
-      const profileUrl = `https://discordapp.com/users/${player.userId}`;
-      // pakai avatar default discord (embed/avatars/0–4)
-      const defaultAvatar = `https://cdn.discordapp.com/embed/avatars/${player.userId % 5}.png`;
-
-      const li = document.createElement("li");
-      li.innerHTML = `
-        <span>#${index + 1}</span>
-        <img src="${defaultAvatar}" width="32" height="32" style="border-radius:50%; vertical-align:middle;">
-        <a href="${profileUrl}" target="_blank">${player.userId}</a>
-        - XP: ${player.xp}
-      `;
-      list.appendChild(li);
-    });
-  }
-
-  loadLeaderboard();
-</script>
-
+                    <div class="col-md-5">
+                      <div class="guild-leaderboard">
+                        <h1><img src="https://cdn3.emoji.gg/emojis/30348-trophy-fixed.gif" alt="trophy" class="emoji-top"> Guild Leaderboard</h1>
+                        <table class="guild-table">
+                          <thead>
+                            <tr>
+                              <th>Rank</th>
+                              <th>Guild</th>
+                              <th>Bank</th>
+                            </tr>
+                          </thead>
+                          <tbody id="leaderboard">
+                            <tr><td colspan="3">Loading...</td></tr>
+                          </tbody>
+                        </table>
+                      </div>
+                    
+                      <script type="module">
+                        import { createClient } from "https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm";
+                    
+                        const supabaseUrl = "https://ikidbzuswyvypvwrhyua.supabase.co";
+                        const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImlraWRienVzd3l2eXB2d3JoeXVhIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTE5MTEwMTEsImV4cCI6MjA2NzQ4NzAxMX0.v-m7DW4eTTDLCoVAL7vWSUW6I0SsOh2tpA1INb5JaEg";
+                        const supabase = createClient(supabaseUrl, supabaseKey);
+                    
+                        async function loadLeaderboard() {
+                          try {
+                            const { data, error } = await supabase
+                              .from("Guild")
+                              .select("name, logoUrl, bank")
+                              .order("bank", { ascending: false })
+                              .limit(10);
+                    
+                            if (error) throw error;
+                    
+                            const tbody = document.getElementById("leaderboard");
+                            tbody.innerHTML = "";
+                    
+                            data.forEach((guild, index) => {
+                              const tr = document.createElement("tr");
+                              tr.innerHTML = `
+                                <td class="rank">#${index + 1}</td>
+                                <td class="guild-name">
+                                  <img src="${guild.logoUrl}" alt="${guild.name}" class="guild-logo">
+                                  ${guild.name}
+                                </td>
+                                <td class="bank"><img src="https://cdn3.emoji.gg/emojis/1643-pixelcoin.gif" alt="coin" class="emoji"> ${guild.bank.toLocaleString()}</td>
+                              `;
+                              tbody.appendChild(tr);
+                            });
+                    
+                          } catch (err) {
+                            console.error("Error:", err);
+                            document.getElementById("leaderboard").innerHTML =
+                              `<tr><td colspan="3">⚠️ ${err.message}</td></tr>`;
+                          }
+                        }
+                    
+                        loadLeaderboard();
+                      </script>
                     </div>
-                </div>
+
             </div>
         </div>
     </section>
 
     <section id="features" class="bg-dark-pink">
-        <div class="container">
-            <div class="row text-center mb-5">
-                <div class="col">
-                    <h2 class="text-white">Kenapa Harus Bergabung?</h2>
-                    <p class="text-white-50">Veskai lebih dari sekadar tempat nongkrong online.</p>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4 mb-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="bi bi-people-fill"></i>
-                        </div>
-                        <h3 class="text-white">Temukan Teman Baru</h3>
-                        <p class="text-white-50">Terhubung dengan ribuan anggota dari seluruh Indonesia.</p>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="bi bi-stars"></i>
-                        </div>
-                        <h3 class="text-white">Share Hobby</h3>
-                        <p class="text-white-50">Berbagai orang dengan berbagai macam hobby berkumpul!</p>
-                    </div>
-                </div>
-                <div class="col-md-4 mb-4">
-                    <div class="feature-card">
-                        <div class="feature-icon">
-                            <i class="bi bi-hearts"></i>
-                        </div>
-                        <h3 class="text-white">Komunitas Seru!</h3>
-                        <p class="text-white-50">Nikmati keseruan Veskai dengan tema Fantasy/RPG/Medieval.</p>
-                    </div>
-                </div>
-            </div>
+      <div class="container">
+        <div class="row text-center mb-5">
+          <div class="col">
+            <h2 class="text-white">Kenapa Harus Bergabung?</h2>
+            <p class="text-white-50">Veskai lebih dari sekadar tempat nongkrong online.</p>
+          </div>
         </div>
-    </section>
-
-    <section id="community" class="bg-dark-purple">
-        <div class="container">
-            <div class="row align-items-center">
-                <div class="col-md-7">
-                    <h2 class="text-white mb-4">Komunitas Aktif Kami</h2>
-                    <p class="text-white-50">Kami adalah Komunitas yang mengangkat banyak hal ke-internet, yang berpusat pada Discord Server di Indonesia.</p>
-                    <p class="text-white-50">Server Indonesia yang membahas berbagai macam topic, mulai dari anime, game, film, art, otomotive, hardware, dan lain sebagainya. tempat kita bertukar cerita, pengalaman, dan pengetahuan.</p>
-                    <a href="https://discord.gg/JHpD6jYYxA" style="margin-bottom: 5%;" class="btn btn-join">Join Server</a>
-                    <a href="/unban/" style="margin-bottom: 5%;" class="btn btn-join">Request Unbanned</a>
-                </div>
-                <div class="col-md-5">
-                    <div class="discord-widget">
-                        <iframe 
-                            src="https://discord.com/widget?id=758552268093128705&theme=dark" 
-                            width="100%" 
-                            height="500" 
-                            allowtransparency="true" 
-                            frameborder="0" 
-                            sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts">
-                        </iframe>
-                    </div>
-                </div>
+    
+        <div class="accordion">
+    
+          <div class="accordion-item">
+            <button class="accordion-btn">
+              <i class="bi bi-people-fill"></i> Temukan Teman Baru
+            </button>
+            <div class="accordion-content">
+              <p class="text-white-50">Terhubung dengan ribuan anggota dari seluruh Indonesia.</p>
+              <img src="https://cdn3.emoji.gg/emojis/30348-trophy-fixed.gif" alt="friends" width="60">
             </div>
+          </div>
+    
+          <div class="accordion-item">
+            <button class="accordion-btn">
+              <i class="bi bi-stars"></i> Share Hobby
+            </button>
+            <div class="accordion-content">
+              <p class="text-white-50">Berbagai orang dengan berbagai macam hobby berkumpul!</p>
+              <img src="https://cdn3.emoji.gg/emojis/1643-pixelcoin.gif" alt="hobby" width="60">
+            </div>
+          </div>
+    
+          <div class="accordion-item">
+            <button class="accordion-btn">
+              <i class="bi bi-hearts"></i> Komunitas Seru!
+            </button>
+            <div class="accordion-content">
+              <p class="text-white-50">Nikmati keseruan Veskai dengan tema Fantasy/RPG/Medieval.</p>
+              <img src="https://cdn3.emoji.gg/emojis/8169-discordheart.gif" alt="community" width="60">
+            </div>
+          </div>
+    
         </div>
+      </div>
     </section>
+    
+    <script>
+      const accBtns = document.querySelectorAll(".accordion-btn");
+    
+      accBtns.forEach(btn => {
+        btn.addEventListener("click", () => {
+          const isActive = btn.classList.contains("active");
+    
+          // Tutup semua
+          accBtns.forEach(b => {
+            b.classList.remove("active");
+            b.nextElementSibling.style.maxHeight = null;
+          });
+    
+          // Kalau tadi belum aktif, buka
+          if (!isActive) {
+            btn.classList.add("active");
+            const content = btn.nextElementSibling;
+            content.style.maxHeight = content.scrollHeight + "px";
+          }
+        });
+      });
+    </script>
 
     <footer class="footer-section">
         <div class="container text-center">
