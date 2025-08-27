@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Fortune Saga - Commands</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="note">
+        Fortune Saga currently run with many cheap third-party, please support the bot by buying the <b><a style="color: #215c32; text-decoration: none;" href="https://tako.id/fortunesaga" target="_blank">Premium</a></b> so we can upgrade and you can use the bot with more fast and smooth response in the future
+    </div>
+
+  <!-- Sidebar (Desktop) -->
+  <div class="sidebar">
+    <div>
+      <h2>📖 Commands</h2>
+      <a class="nav-link active" data-target="characters">Characters</a>
+      <a class="nav-link" data-target="items">Items</a>
+      <a class="nav-link" data-target="gameplay">Gameplay</a>
+      <a class="nav-link" data-target="information">Information</a>
+      <a class="nav-link" data-target="admin">Admin</a>
+    </div>
+    <a href="/fortune-saga/" class="back-btn">Back</a>
+    <a class="cprht">Supported by Veskai Production</a>
+  </div>
+
+  <!-- Mobile Navbar -->
+  <div class="mobile-nav">
+    <h2>📖 Commands</h2>
+    <a href="/fortune-saga/" class="back-btn-mobile">Back</a>
+    <div class="hamburger">☰</div>
+  </div>
+  <div class="dropdown" id="mobileDropdown">
+    <a data-target="characters">Characters</a>
+    <a data-target="items">Items</a>
+    <a data-target="gameplay">Gameplay</a>
+    <a data-target="information">Information</a>
+    <a data-target="Admin">Admin</a>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content">
+    
+    <!-- characters Section -->
+    <div id="characters" class="section active">
+      <h3>Characters Commands</h3>
+      <div class="doc-item">
+        <div class="doc-title">/help</div>
+        <div class="doc-content">
+          <p>Display all commands</p>
+            <p><i><small>user with <b>administrator</b> permission will unlock the admin only commands</small></i></p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/stats</div>
+        <div class="doc-content">
+          <p>Show your diplay character</p>
+          <p><i><small>its also command for <b>Register</b> that only work for new user</small></i></p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/profile</div>
+        <div class="doc-content">
+          <p>Show your diplay character</p>
+          <p><i><small>its also command for <b>Register</b> that only work for new user</small></i></p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/daily</div>
+        <div class="doc-content">
+          <p>Daily Gold to claim.</p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/leaderboard</div>
+        <div class="doc-content">
+          <p>See the leaderboards list</p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/guild</div>
+        <div class="doc-content">
+          <p>Show, Create Guild & Manage your Guild</p>
+          <p><i><small>*If you doesn't know why your image link for Guild Logo not working, you can try to upload your image in </i><a style="color: white;" href="https://qu.ax/" target="_blank"><b>https://qu.ax</b></a></small></p>
+        </div>
+      </div>
+    </div>
+
+    <!-- items Section -->
+    <div id="items" class="section">
+      <h3>Items Commands</h3>
+      <div class="doc-item">
+        <div class="doc-title">/inventory</div>
+        <div class="doc-content">
+          <p>Show your items that you already buy in Global Shop</p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/money</div>
+        <div class="doc-content">
+          <p>Transfer Gold to another user</p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/shop</div>
+        <div class="doc-content">
+          <p>Buy items in Global or Server Shop, Server Shop must be prepared by the user with Administrator Permission</p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/equip</div>
+        <div class="doc-content">
+          <p>Equip your items that you already buy from Global Shop</p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/unequip</div>
+        <div class="doc-content">
+          <p>Unequip your items</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- gameplay Section -->
+    <div id="gameplay" class="section">
+      <h3>Gameplay Commands</h3>
+      <div class="doc-item">
+        <div class="doc-title">/hunt</div>
+        <div class="doc-content">
+          <p>Hunt monster to gain Exp & Gold</p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/dungeon</div>
+        <div class="doc-content">
+          <p>Find Treasure inside the Dungeon. basically its the same with /hunt but 10 times harder</p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/fight</div>
+        <div class="doc-content">
+          <p>Test your strength against other. <i>its PvE fight but with other user stats</i></p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/work</div>
+        <div class="doc-content">
+          <p>Help villagers near you. <i>it has 3 minutes cooldown</i></p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/quests</div>
+        <div class="doc-content">
+          <p>Take & Manage your quest with this command</p>
+        </div>
+      </div>
+    </div>
+
+        <!-- information Section -->
+    <div id="information" class="section">
+      <h3>Information Commands</h3>
+      <div class="doc-item">
+        <div class="doc-title">/premium</div>
+        <div class="doc-content">
+          <p>Buy premium and support the bot</p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/discord</div>
+        <div class="doc-content">
+          <p>Join the Official Fortune Saga Server to get information about Events, Updates, and More.</p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/invite</div>
+        <div class="doc-content">
+          <p>Invite the bot to your server</p>
+        </div>
+      </div>
+    </div>
+
+        <!-- admin Section -->
+    <div id="admin" class="section">
+      <h3>Administrator Commands</h3>
+      <a>these commands only work if you have Administrator Permission</a>
+      <div class="doc-item">
+        <div class="doc-title">/create-server-item</div>
+        <div class="doc-content">
+          <p>Create item to sell on your Server Shop</p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/edit-server-item</div>
+        <div class="doc-content">
+          <p>Edit your listed Server Shop items</p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/delete-server-item</div>
+        <div class="doc-content">
+          <p>Delete listed item in your Server Shop</p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/special-role</div>
+        <div class="doc-content">
+          <p>Manually give other user a role temporary or permanently, it also will be shown in his /stats or your can check his/her profile using /profile [usertag]</p>
+        </div>
+      </div>
+      <div class="doc-item">
+        <div class="doc-title">/bot-status</div>
+        <div class="doc-content">
+          <p>Show the bot internet status to the database, if its laggy please help the dev to upgrade by buying the premium feature :D</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    // Sidebar navigation (Desktop + Mobile)
+    function switchSection(target) {
+      document.querySelectorAll('.section').forEach(sec => sec.classList.remove('active'));
+      document.getElementById(target).classList.add('active');
+    }
+
+    // Desktop links
+    document.querySelectorAll('.nav-link').forEach(link => {
+      link.addEventListener('click', () => {
+        document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+        link.classList.add('active');
+        switchSection(link.dataset.target);
+      });
+    });
+
+    // Mobile dropdown links
+    document.querySelectorAll('#mobileDropdown a[data-target]').forEach(link => {
+      link.addEventListener('click', () => {
+        switchSection(link.dataset.target);
+        document.getElementById('mobileDropdown').style.display = 'none';
+      });
+    });
+
+    // Hamburger toggle
+    document.querySelector('.hamburger').addEventListener('click', () => {
+      const dropdown = document.getElementById('mobileDropdown');
+      dropdown.style.display = dropdown.style.display === 'flex' ? 'none' : 'flex';
+    });
+
+    // Expand/collapse docs
+    document.querySelectorAll('.doc-title').forEach(title => {
+      title.addEventListener('click', () => {
+        title.nextElementSibling.classList.toggle('open');
+      });
+    });
+  </script>
+
+</body>
+</html>

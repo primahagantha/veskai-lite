@@ -1,0 +1,218 @@
+body {
+    margin: 0;
+    font-family: Arial, sans-serif;
+    background: #0f0f2b;
+    color: #f1f1f1;
+}
+
+.cprht {
+    font-family: Arial, sans-serif;
+    color: #f1f1f1;
+    font-size: smaller;
+    padding-left: 15px;
+    padding-bottom: 15px;
+}
+
+.note {
+    background-color: rgb(255, 255, 230);
+    border: 1px solid #a1d9b4;
+    border-bottom: 6px solid #4caf50;
+    padding: 20px;
+    color: #215c32;
+    font-size: 16px;
+    border-radius: 4px;
+    max-width: 600px;
+    margin: 20px;
+    margin-left: 35%;
+}
+
+/* Sidebar (Desktop) */
+.sidebar {
+    width: 220px;
+    background: #1b1b33;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    display: flex;
+    flex-direction: column;
+}
+
+.sidebar h2 {
+    text-align: center;
+    margin: 20px 0;
+}
+
+.nav-link {
+    display: block;
+    padding: 12px 20px;
+    color: #f1f1f1;
+    text-decoration: none;
+    transition: background 0.3s;
+    cursor: pointer;
+}
+
+.nav-link:hover {
+    background: #2d2d44;
+}
+
+.nav-link.active {
+    background: #4a4a70;
+    font-weight: bold;
+}
+
+.back-btn {
+    /* Mendorong tombol ke bawah dalam flex container (sidebar) */
+    margin-top: auto;
+    /* Memberi jarak dari sisi sidebar dan bawah */
+    margin-left: 20px;
+    margin-right: 20px;
+    margin-bottom: 20px;
+
+    text-align: center;
+    padding: 10px;
+    background: #4a4a70;
+    border-radius: 6px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+.back-btn:hover {
+    background: #5a5a85;
+}
+
+/* Content */
+.content {
+    margin-left: 220px;
+    /* supaya tidak ketiban sidebar */
+    padding: 20px;
+    padding-top: 0;
+}
+
+.section {
+    display: none;
+}
+
+.section.active {
+    display: block;
+}
+
+.section h3 {
+    border-bottom: 2px solid #4a4a70;
+    padding-bottom: 5px;
+}
+
+.doc-item {
+    background: #2d2d44;
+    margin: 10px 0;
+    border-radius: 8px;
+    overflow: hidden;
+}
+
+.doc-title {
+    padding: 12px;
+    cursor: pointer;
+    background: #3a3a55;
+    font-weight: bold;
+}
+
+.doc-title:hover {
+    background: #4a4a70;
+}
+
+.doc-content {
+    max-height: 0;
+    overflow: hidden;
+    padding: 0 12px;
+    background: #2d2d44;
+    transition: max-height 0.4s ease, padding 0.3s ease;
+}
+
+.doc-content.open {
+    max-height: 500px;
+    padding: 12px;
+}
+
+.mobile-nav,
+.dropdown {
+    display: none;
+}
+
+/* ============ Mobile ============ */
+@media (max-width: 768px) {
+    .sidebar {
+        display: none;
+        /* sembunyikan sidebar di mobile */
+    }
+
+    .mobile-nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #2a2a40;
+        padding: 10px 15px;
+        position: sticky;
+        top: 0;
+        z-index: 10;
+    }
+
+    .hamburger {
+        font-size: 1.5rem;
+        cursor: pointer;
+    }
+
+    .dropdown {
+        display: none;
+        flex-direction: column;
+        background: #3a3a55;
+    }
+
+    .dropdown a {
+        padding: 12px;
+        border-top: 1px solid #4a4a70;
+        color: #f1f1f1;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    .dropdown a:hover {
+        background: #4a4a70;
+    }
+
+    .dropdown {
+        position: static;
+        margin: 10px;
+    }
+
+    .back-btn-mobile {
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 15%;
+    padding: 10%;
+
+    text-align: center;
+    padding: 10px;
+    background: #4a4a70;
+    border-radius: 6px;
+    color: #fff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: background 0.3s;
+}
+
+    .back-btn-mobile:hover {
+        background: #5a5a85;
+    }
+
+    .content {
+        margin-left: 0;
+        /* reset margin desktop */
+        padding: 15px;
+    }
+
+    .note {
+        display: none;
+    }
+}
