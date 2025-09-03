@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
     const staffGrid = document.getElementById('staff-grid');
     const loader = document.getElementById('loader');
+    const metaEl = document.getElementById('staff-meta');
 
     // API runs on plain HTTP which browsers block when this page is served
     // over HTTPS. Use a public CORS proxy (allorigins) to access it safely.
@@ -84,6 +85,22 @@ document.addEventListener('DOMContentLoaded', () => {
         joinedEl.textContent = 'Bergabung: ' + new Date(staff.joinedAt).toLocaleDateString('id-ID');
         body.appendChild(joinedEl);
 
+        const metaDiv = document.createElement('div');
+        metaDiv.className = 'staff-meta';
+        if (staff.talent) {
+            const t = document.createElement('span');
+            t.className = 'badge badge-talent';
+            t.textContent = 'Talent';
+            metaDiv.appendChild(t);
+        }
+        if (staff.absence) {
+            const a = document.createElement('span');
+            a.className = 'badge badge-absent';
+            a.textContent = 'Absent';
+            metaDiv.appendChild(a);
+        }
+        if (metaDiv.children.length > 0) body.appendChild(metaDiv);
+
         card.appendChild(body);
         return card;
     };
@@ -93,8 +110,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const staffData = data.data.user;
         staffGrid.innerHTML = '';
         categories.forEach(cat => {
-            const list = staffData[cat.name];
-            if (!list || list.length === 0) return;
+            const list = staffData[cat.name] || [];
             const catDiv = document.createElement('div');
             catDiv.className = 'staff-category';
             catDiv.textContent = cat.displayName;
@@ -102,9 +118,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             const grid = document.createElement('div');
             grid.className = 'staff-grid';
-            list.forEach(staff => {
-                grid.appendChild(createCard(staff));
-            });
+            if (list.length === 0) {
+                const empty = document.createElement('div');
+                empty.className = 'text-muted';
+                empty.textContent = 'Belum ada staff.';
+                grid.appendChild(empty);
+            } else {
+                list.forEach(staff => {
+                    grid.appendChild(createCard(staff));
+                });
+            }
             staffGrid.appendChild(grid);
         });
     };
@@ -114,6 +137,11 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             loader.style.display = 'none';
             staffGrid.classList.remove('hidden');
+            if (metaEl) {
+                const total = data.data.metadata.totalStaff;
+                const updated = new Date(data.data.metadata.lastUpdated).toLocaleDateString('id-ID');
+                metaEl.textContent = `Total Staff: ${total} • Update terakhir: ${updated}`;
+            }
             render(data);
         })
         .catch(err => {
