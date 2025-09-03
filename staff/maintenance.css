@@ -1,0 +1,19 @@
+.maintenance-container {
+    text-align: center;
+    padding: 80px 20px;
+    color: #fff;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.maintenance-container h1 {
+    font-size: 2.5rem;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
+.maintenance-container p {
+    font-size: 1.2rem;
+    color: rgba(255, 255, 255, 0.8);
+    line-height: 1.6;
+}
