@@ -1,103 +1,79 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const API_URL = 'http://bilge.caligo.asia:40005/api/staff-list';
-    const staffContainer = document.getElementById('staff-container');
+    const staffGrid = document.getElementById('staff-grid');
     const loader = document.getElementById('loader');
+    // If server has already rendered staff contents, do nothing
+    if (staffGrid && staffGrid.dataset && staffGrid.dataset.rendered === '1') {
+        if (loader) loader.style.display = 'none';
+        return;
+    }
 
-    fetch(API_URL)
-        .then(res => {
-            if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-            return res.json();
-        })
-        .then(json => {
-            loader.style.display = 'none';
-            staffContainer.classList.remove('hidden');
+    // Try remote API first; if it fails (CORS/network), fallback to server proxy
+    const remoteUrl = 'http://bilge.caligo.asia:40005/api/staff-list';
+    const proxyUrl = 'api.php';
 
-            const { user, metadata } = json.data;
-
-            metadata.categories.forEach(cat => {
-                const section = document.createElement('section');
-                section.className = 'staff-section';
-
-                const title = document.createElement('h2');
-                title.className = 'category-title';
-                title.textContent = `${cat.displayName} (${cat.count})`;
-                section.appendChild(title);
-
-                const grid = document.createElement('div');
-                grid.className = 'staff-grid';
-
-                (user[cat.name] || []).forEach(staff => {
-                    grid.appendChild(createStaffCard(staff));
-                });
-
-                section.appendChild(grid);
-                staffContainer.appendChild(section);
-            });
-        })
-        .catch(err => {
-            console.error('Error fetching staff list:', err);
-            loader.innerHTML = '<p class="text-danger">Gagal memuat daftar staff. Silakan coba lagi nanti.</p>';
+    function doFetch(url) {
+        return fetch(url, { mode: 'cors' }).then(response => {
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+            return response.json();
         });
+    }
 
-    function createStaffCard(staff) {
-        const card = document.createElement('div');
-        card.className = 'staff-card';
-
-        const avatar = document.createElement('img');
-        avatar.src = staff.avatar;
-        avatar.alt = `Avatar ${staff.displayName || staff.username}`;
-        avatar.className = 'staff-avatar';
-        card.appendChild(avatar);
-
-        const nameEl = document.createElement('h4');
-        nameEl.className = 'staff-name text-white';
-        const nameLink = document.createElement('a');
-        nameLink.href = `https://discord.com/users/${staff.id}`;
-        nameLink.target = '_blank';
-        nameLink.rel = 'noopener noreferrer';
-        nameLink.textContent = staff.displayName || staff.username;
-        nameEl.appendChild(nameLink);
-        card.appendChild(nameEl);
-
-        if (staff.nickname) {
-            const nick = document.createElement('p');
-            nick.className = 'staff-nickname';
-            nick.textContent = `"${staff.nickname}"`;
-            card.appendChild(nick);
-        }
-
-        const userName = document.createElement('p');
-        userName.className = 'staff-username';
-        userName.textContent = `@${staff.username}`;
-        card.appendChild(userName);
-
-        const joined = document.createElement('p');
-        joined.className = 'staff-joined';
-        joined.textContent = `Joined: ${new Date(staff.joinedAt).toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })}`;
-        card.appendChild(joined);
-
-        const rolesDiv = document.createElement('div');
-        rolesDiv.className = 'staff-roles';
-        if (Array.isArray(staff.roles)) {
-            staff.roles.forEach(role => {
-                const span = document.createElement('span');
-                span.className = 'role-badge';
-                span.textContent = role.name;
-                span.style.backgroundColor = role.color;
-                span.style.color = getContrastColor(role.color);
-                rolesDiv.appendChild(span);
+    doFetch(remoteUrl)
+        .catch(err => doFetch(proxyUrl))
+        .then(apiData => {
+            if (loader) loader.style.display = 'none';
+            if (!staffGrid) return;
+            staffGrid.classList.remove('hidden');
+            staffGrid.innerHTML = '';
+            const categories = apiData.data.metadata.categories;
+            const staffData = apiData.data.user;
+            categories.forEach(category => {
+                const staffList = staffData[category.name];
+                if (!staffList || staffList.length === 0) return;
+                const catHeader = document.createElement('div');
+                catHeader.className = 'staff-category';
+                catHeader.textContent = category.displayName;
+                staffGrid.appendChild(catHeader);
+                staffList.forEach(staff => {
+                    const card = document.createElement('div');
+                    card.className = 'staff-card';
+                    let rolesHtml = '';
+                    if (staff.roles && staff.roles.length > 0) rolesHtml = staff.roles.map(role => `<span class="staff-role-badge" style="background:${role.color};">${role.name}</span>`).join(' ');
+                    card.innerHTML = `
+                        <img src="${staff.avatar}" alt="Avatar ${staff.displayName}" class="staff-avatar" loading="lazy">
+                        <h4 class="staff-name text-white">${staff.displayName}</h4>
+                        <div class="staff-nick">${staff.nickname ? staff.nickname : ''}</div>
+                        <div class="staff-roles">${rolesHtml}</div>
+                        <div class="staff-joined">Bergabung: ${new Date(staff.joinedAt).toLocaleDateString('id-ID')}</div>
+                    `;
+                    staffGrid.appendChild(card);
+                });
             });
-        }
-        card.appendChild(rolesDiv);
+        })
+        .catch(error => {
+            if (loader) loader.innerHTML = '<p class="text-danger">Gagal memuat daftar staff. Silakan coba lagi nanti.</p>';
+            console.error('Error fetching staff list:', error);
+        });
+});
 
-        return card;
+// Avatar easter-egg: click the avatar 10 times quickly to rickroll
+document.addEventListener('click', function(e){
+    var el = e.target;
+    if (!el.classList || !el.classList.contains('staff-avatar')) return;
+    el.dataset.count = (parseInt(el.dataset.count||'0') + 1).toString();
+    if (parseInt(el.dataset.count) === 10) {
+        // open rickroll in new tab
+        window.open('https://www.youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
+        el.dataset.count = '0';
     }
+    // reset count after 3s of inactivity
+    setTimeout(function(){ el.dataset.count = '0'; }, 3000);
+});
 
-    function getContrastColor(hex) {
-        const r = parseInt(hex.substr(1, 2), 16);
-        const g = parseInt(hex.substr(3, 2), 16);
-        const b = parseInt(hex.substr(5, 2), 16);
-        const yiq = (r * 299 + g * 587 + b * 114) / 1000;
-        return yiq >= 128 ? '#000' : '#fff';
-    }
+// Reverse role badges order so API bottom-most role appears on top visually
+document.addEventListener('DOMContentLoaded', function(){
+    document.querySelectorAll('.staff-roles').forEach(function(container){
+        var children = Array.prototype.slice.call(container.children);
+        children.reverse().forEach(function(c){ container.appendChild(c); });
+    });
 });
