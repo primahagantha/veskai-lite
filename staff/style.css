@@ -18,6 +18,16 @@
     margin-bottom: 60px;
 }
 
+.staff-section {
+    margin-bottom: 60px;
+}
+
+.category-title {
+    color: #fff;
+    font-weight: 700;
+    margin-bottom: 30px;
+}
+
 /* Animasi Loader */
 .loader {
     border: 4px solid rgba(255, 255, 255, 0.2);
@@ -34,8 +44,13 @@
     100% { transform: rotate(360deg); }
 }
 
+/* Utility */
+.hidden {
+    display: none;
+}
+
 /* Grid untuk Kartu Staff */
-#staff-grid {
+.staff-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
     gap: 30px;
@@ -72,19 +87,33 @@
     margin-bottom: 5px;
 }
 
-.staff-role {
-    color: rgba(255, 255, 255, 0.7);
-    font-weight: 500;
-    margin-bottom: 20px;
-}
-
-.staff-socials a {
+.staff-nickname {
     color: rgba(255, 255, 255, 0.6);
-    font-size: 1.3rem;
-    margin: 0 10px;
-    transition: color 0.2s ease;
+    font-style: italic;
+    margin-bottom: 5px;
 }
 
-.staff-socials a:hover {
-    color: #fff;
+.staff-username {
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 5px;
+}
+
+.staff-joined {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+    margin-bottom: 10px;
+}
+
+.staff-roles {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 5px;
+}
+
+.role-badge {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
 }
