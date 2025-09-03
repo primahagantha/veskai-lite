@@ -1,14 +1,95 @@
 /* Staff page assets copied from legacy staff/style.css */
-/* ...existing staff CSS... */
-/* (full content copied from previous staff/style.css) */
-.staff-category { margin-top:2rem;margin-bottom:1rem;font-size:1.5rem;font-weight:600;color:#fff;background:#222;padding:.5rem 1rem;border-radius:8px; }
-.staff-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:30px;text-align:center}
-.staff-card{background-color:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);border-radius:15px;padding:30px;transition:transform .3s ease,box-shadow .3s ease;height:100%}
-.staff-avatar{width:120px;height:120px;border-radius:50%;object-fit:cover;margin-bottom:20px;border:4px solid #fff;box-shadow:0 0 15px rgba(255,255,255,.3)}
-.staff-name{font-weight:700;font-size:1.25rem;margin-bottom:5px}
-.staff-role-badge{display:inline-block;padding:.2em .7em;margin:.1em .2em;border-radius:6px;font-size:.95em;font-weight:500;background:#444;color:#fff}
-.badge-talent{background:linear-gradient(90deg,#ff8a00,#e52e71);color:#fff;padding:4px 8px;border-radius:8px;margin-right:6px;font-weight:700}
-.badge-absent{background:#555;color:#fff;padding:4px 8px;border-radius:8px;font-weight:600}
-.loader{border:4px solid rgba(255,255,255,.2);border-top:4px solid #fff;border-radius:50%;width:50px;height:50px;animation:spin 1s linear infinite;margin:50px auto}
-@keyframes spin{0%{transform:rotate(0deg)}100%{transform:rotate(360deg)}}
-.hidden{display:none}
+
+.staff-category {
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #fff;
+    background: #222;
+    padding: .5rem 1rem;
+    border-radius: 8px;
+}
+
+.staff-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(270px, 1fr));
+    gap: 30px;
+    text-align: center;
+}
+
+.staff-card {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 30px;
+    transition: transform .3s ease, box-shadow .3s ease;
+    height: 100%;
+}
+
+.staff-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    border: 4px solid #fff;
+    box-shadow: 0 0 15px rgba(255, 255, 255, .3);
+}
+
+.staff-name {
+    font-weight: 700;
+    font-size: 1.25rem;
+    margin-bottom: 5px;
+}
+
+.staff-role-badge {
+    display: inline-block;
+    padding: .2em .7em;
+    margin: .1em .2em;
+    border-radius: 6px;
+    font-size: .95em;
+    font-weight: 500;
+    background: #444;
+    color: #fff;
+}
+
+.badge-talent {
+    background: linear-gradient(90deg, #ff8a00, #e52e71);
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 8px;
+    margin-right: 6px;
+    font-weight: 700;
+}
+
+.badge-absent {
+    background: #555;
+    color: #fff;
+    padding: 4px 8px;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
+.loader {
+    border: 4px solid rgba(255, 255, 255, .2);
+    border-top: 4px solid #fff;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    animation: spin 1s linear infinite;
+    margin: 50px auto;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg)
+    }
+    100% {
+        transform: rotate(360deg)
+    }
+}
+
+.hidden {
+    display: none
+}

@@ -7,19 +7,15 @@ document.addEventListener('DOMContentLoaded', () => {
         return;
     }
 
-    // Try remote API first; if it fails (CORS/network), fallback to server proxy
-    const remoteUrl = 'http://bilge.caligo.asia:40005/api/staff-list';
-    const proxyUrl = 'api.php';
+    const apiUrl = 'https://corsproxy.io/?' + encodeURIComponent('http://bilge.caligo.asia:40005/api/staff-list');
 
-    function doFetch(url) {
-        return fetch(url, { mode: 'cors' }).then(response => {
-            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+    fetch(apiUrl)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
             return response.json();
-        });
-    }
-
-    doFetch(remoteUrl)
-        .catch(err => doFetch(proxyUrl))
+        })
         .then(apiData => {
             if (loader) loader.style.display = 'none';
             if (!staffGrid) return;
@@ -37,22 +33,58 @@ document.addEventListener('DOMContentLoaded', () => {
                 staffList.forEach(staff => {
                     const card = document.createElement('div');
                     card.className = 'staff-card';
+                    card.dataset.username = staff.username || (staff.displayName || 'unknown');
+
+                    const display = staff.displayName || staff.username;
+                    const nick = staff.nickname || '';
+                    const talent = staff.talent || null;
+                    const absent = staff.absence || null;
+
                     let rolesHtml = '';
-                    if (staff.roles && staff.roles.length > 0) rolesHtml = staff.roles.map(role => `<span class="staff-role-badge" style="background:${role.color};">${role.name}</span>`).join(' ');
+                    if (staff.roles && Array.isArray(staff.roles)) {
+                        const reversedRoles = [...staff.roles].reverse();
+                        rolesHtml = reversedRoles.map(role => {
+                            const rname = role.name || role.roleName || 'Role';
+                            const rcolor = role.color || '#3a3a3a';
+                            const isArchon = rname.toLowerCase().includes('archon');
+                            const textColor = '#fff'; // Assuming white text is always fine for contrast.
+                            // The PHP had a simple lighten effect which is harder to replicate, so we'll just use the color for the gradient.
+                            const background = `linear-gradient(135deg, ${rcolor}, ${rcolor})`;
+                            return `<span class="staff-role-badge${isArchon ? ' archon' : ''}" style="background: ${background}; color: ${textColor}">${rname}</span>`;
+                        }).join('');
+                    }
+
+                    let metaHtml = '';
+                    if (talent) {
+                        metaHtml += `<span class="badge badge-talent">Talent</span>`;
+                    }
+                    if (absent) {
+                        metaHtml += `<span class="badge badge-absent">Absent</span>`;
+                    }
+
                     card.innerHTML = `
-                        <img src="${staff.avatar}" alt="Avatar ${staff.displayName}" class="staff-avatar" loading="lazy">
-                        <h4 class="staff-name text-white">${staff.displayName}</h4>
-                        <div class="staff-nick">${staff.nickname ? staff.nickname : ''}</div>
-                        <div class="staff-roles">${rolesHtml}</div>
-                        <div class="staff-joined">Bergabung: ${new Date(staff.joinedAt).toLocaleDateString('id-ID')}</div>
+                        <div class="staff-avatar-wrap">
+                            <img src="${staff.avatar || ''}" alt="${display}" class="staff-avatar">
+                            <div class="staff-online-indicator"></div>
+                        </div>
+                        <div class="staff-body">
+                            <div class="staff-names">
+                                <div class="staff-display">${display}</div>
+                                <div class="staff-username">@${staff.username}</div>
+                                ${nick ? `<div class="staff-nick">"${nick}"</div>` : ''}
+                            </div>
+                            <div class="staff-roles">${rolesHtml}</div>
+                            <div class="staff-meta">${metaHtml}</div>
+                        </div>
                     `;
                     staffGrid.appendChild(card);
                 });
             });
         })
         .catch(error => {
-            if (loader) loader.innerHTML = '<p class="text-danger">Gagal memuat daftar staff. Silakan coba lagi nanti.</p>';
             console.error('Error fetching staff list:', error);
+            const mainContainer = document.querySelector('.container-main');
+            renderMaintenancePage(mainContainer);
         });
 });
 
